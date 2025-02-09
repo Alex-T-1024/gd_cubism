@@ -31,6 +31,7 @@ private:
         HEAD_ANGLE_Y,
         HEAD_ANGLE_Z,
         BODY_ANGLE_X,
+        BODY_ANGLE_Y,
         EYES_BALL_X,
         EYES_BALL_Y
     };
@@ -63,6 +64,10 @@ protected:
     	ClassDB::bind_method(D_METHOD("get_body_angle_x"), &GDCubismEffectTargetPoint::get_body_angle_x);
         ADD_PROPERTY(PropertyInfo(Variant::STRING, "body_angle_x"), "set_body_angle_x", "get_body_angle_x");
 
+        ClassDB::bind_method(D_METHOD("set_body_angle_y", "id"), &GDCubismEffectTargetPoint::set_body_angle_y);
+    	ClassDB::bind_method(D_METHOD("get_body_angle_y"), &GDCubismEffectTargetPoint::get_body_angle_y);
+        ADD_PROPERTY(PropertyInfo(Variant::STRING, "body_angle_y"), "set_body_angle_y", "get_body_angle_y");
+
     	ClassDB::bind_method(D_METHOD("set_body_range", "range"), &GDCubismEffectTargetPoint::set_body_range);
     	ClassDB::bind_method(D_METHOD("get_body_range"), &GDCubismEffectTargetPoint::get_body_range);
         ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "body_range"), "set_body_range", "get_body_range");
@@ -91,6 +96,8 @@ private:
 
     void set_body_angle_x(const String id) { this->body_angle_x = id; this->_need_update = true; }
     String get_body_angle_x() const { return this->body_angle_x; }
+    void set_body_angle_y(const String id) { this->body_angle_y = id; this->initialized = false; }
+    String get_body_angle_y() const { return this->body_angle_y; }
 
     void set_eyes_ball_x(const String id) { this->eyes_ball_x = id; this->_need_update = true; }
     String get_eyes_ball_x() const { return this->eyes_ball_x; }
@@ -103,6 +110,7 @@ private:
     String head_angle_y = "ParamAngleY";
     String head_angle_z = "ParamAngleZ";
     String body_angle_x = "ParamBodyAngleX";
+    String body_angle_y = "ParamBodyAngleY";
     String eyes_ball_x = "ParamEyeBallX";
     String eyes_ball_y = "ParamEyeBallY";
 
@@ -198,6 +206,11 @@ public:
             if(v == -1 && this->body_angle_x.length() > 0) WARN_PRINT_ED(String("Undefined parameter name: ") + this->body_angle_x);
             this->_map_param_idx[BODY_ANGLE_X] = v;
 
+            // BODY_ANGLE_Y
+            v = this->find_idx(_model, Csm::csmString(this->body_angle_y.utf8().ptr()));
+            if(v == -1 && this->body_angle_y.length() > 0) WARN_PRINT_ED(String("Undefined parameter name: ") + this->body_angle_y);
+            this->_map_param_idx[BODY_ANGLE_Y] = v;
+
             // EYE_BALL_X
             v = this->find_idx(_model, Csm::csmString(this->eyes_ball_x.utf8().ptr()));
             if(v == -1 && this->eyes_ball_x.length() > 0) WARN_PRINT_ED(String("Undefined parameter name: ") + this->eyes_ball_x);
@@ -221,6 +234,7 @@ public:
 
         // Dragging Body
         _model->AddParameterValue(this->_map_param_idx[BODY_ANGLE_X], _dragX * this->_bodyRange);
+        _model->AddParameterValue(this->_map_param_idx[BODY_ANGLE_Y], _dragY * this->_bodyRange);
 
         // Dragging Eyes
         _model->AddParameterValue(this->_map_param_idx[EYES_BALL_X], _dragX * this->_eyesRange);

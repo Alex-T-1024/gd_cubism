@@ -45,6 +45,12 @@ public partial class GDCubismEffectTargetPointCS : GDCubismEffectCS
         get { return (String)this.InternalObject.Call("get_body_angle_x"); }
     }
 
+    public String BodyAngleY
+    {
+        set { this.InternalObject.Call("set_body_angle_y", (String)value); }
+        get { return (String)this.InternalObject.Call("get_body_angle_y"); }
+    }
+
     public float BodyRange
     {
         set { this.InternalObject.Call("set_body_range", (float)value); }
