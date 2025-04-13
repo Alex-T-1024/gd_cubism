@@ -96,7 +96,7 @@ private:
 
     void set_body_angle_x(const String id) { this->body_angle_x = id; this->_need_update = true; }
     String get_body_angle_x() const { return this->body_angle_x; }
-    void set_body_angle_y(const String id) { this->body_angle_y = id; this->initialized = false; }
+    void set_body_angle_y(const String id) { this->body_angle_y = id; this->_need_update = true; }
     String get_body_angle_y() const { return this->body_angle_y; }
 
     void set_eyes_ball_x(const String id) { this->eyes_ball_x = id; this->_need_update = true; }
